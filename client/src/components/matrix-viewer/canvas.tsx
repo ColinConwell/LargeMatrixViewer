@@ -4,10 +4,16 @@ import { ViewportState, CellPosition, drawMatrix, getCellAtPosition } from "@/li
 interface MatrixCanvasProps {
   data: number[][];
   scale?: number;
+  showLowerTriangle?: boolean;
   onCellSelect?: (cell: CellPosition) => void;
 }
 
-export function MatrixCanvas({ data, scale = 1, onCellSelect }: MatrixCanvasProps) {
+export function MatrixCanvas({ 
+  data, 
+  scale = 1, 
+  showLowerTriangle = false,
+  onCellSelect 
+}: MatrixCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [viewport, setViewport] = useState<ViewportState>({
     scale: scale,
@@ -34,11 +40,11 @@ export function MatrixCanvas({ data, scale = 1, onCellSelect }: MatrixCanvasProp
     if (!ctx) return;
 
     const render = () => {
-      drawMatrix(ctx, data, viewport, canvas.width, canvas.height, selectedCell);
+      drawMatrix(ctx, data, viewport, canvas.width, canvas.height, selectedCell, showLowerTriangle);
     };
 
     render();
-  }, [data, viewport, selectedCell]);
+  }, [data, viewport, selectedCell, showLowerTriangle]);
 
   const handleWheel = (e: React.WheelEvent) => {
     e.preventDefault();
@@ -79,7 +85,7 @@ export function MatrixCanvas({ data, scale = 1, onCellSelect }: MatrixCanvasProp
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
 
-    const cell = getCellAtPosition(x, y, viewport, data);
+    const cell = getCellAtPosition(x, y, viewport, data, showLowerTriangle);
     if (cell) {
       setSelectedCell(cell);
       onCellSelect?.(cell);

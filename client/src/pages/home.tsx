@@ -12,6 +12,8 @@ const sampleMatrix = Array.from({ length: 100 }, () =>
 export default function Home() {
   const [scale, setScale] = useState(1);
   const [selectedCell, setSelectedCell] = useState<CellPosition>();
+  const [showLowerTriangle, setShowLowerTriangle] = useState(false);
+  const [matrix, setMatrix] = useState(sampleMatrix);
 
   const handleZoomIn = () => setScale(prev => Math.min(5, prev * 1.1));
   const handleZoomOut = () => setScale(prev => Math.max(0.1, prev * 0.9));
@@ -28,6 +30,9 @@ export default function Home() {
             onZoomIn={handleZoomIn}
             onZoomOut={handleZoomOut}
             onReset={handleReset}
+            showLowerTriangle={showLowerTriangle}
+            onToggleLowerTriangle={setShowLowerTriangle}
+            onMatrixLoad={setMatrix}
           />
         </div>
 
@@ -36,8 +41,9 @@ export default function Home() {
             <Card>
               <CardContent className="p-4">
                 <MatrixCanvas
-                  data={sampleMatrix}
+                  data={matrix}
                   scale={scale}
+                  showLowerTriangle={showLowerTriangle}
                   onCellSelect={setSelectedCell}
                 />
               </CardContent>

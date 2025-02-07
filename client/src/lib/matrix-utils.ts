@@ -16,10 +16,11 @@ export function drawMatrix(
   viewport: ViewportState,
   width: number,
   height: number,
-  selectedCell?: CellPosition
+  selectedCell?: CellPosition,
+  showLowerTriangle: boolean = false
 ) {
   ctx.clearRect(0, 0, width, height);
-  
+
   const cellSize = 40 * viewport.scale;
   const startRow = Math.max(0, Math.floor(-viewport.offsetY / cellSize));
   const startCol = Math.max(0, Math.floor(-viewport.offsetX / cellSize));
@@ -29,17 +30,20 @@ export function drawMatrix(
   // Draw visible cells
   for (let i = startRow; i < endRow; i++) {
     for (let j = startCol; j < endCol; j++) {
+      // Skip cells above the diagonal in lower triangle mode
+      if (showLowerTriangle && j > i) continue;
+
       const x = j * cellSize + viewport.offsetX;
       const y = i * cellSize + viewport.offsetY;
-      
+
       // Calculate color based on value
       const value = data[i][j];
       const normalizedValue = (value + 1) / 2; // Assuming values are between -1 and 1
       const hue = normalizedValue * 240;
-      
+
       ctx.fillStyle = `hsl(${hue}, 70%, 70%)`;
       ctx.fillRect(x, y, cellSize, cellSize);
-      
+
       // Draw border
       ctx.strokeStyle = "#ccc";
       ctx.strokeRect(x, y, cellSize, cellSize);
@@ -68,13 +72,17 @@ export function getCellAtPosition(
   x: number,
   y: number,
   viewport: ViewportState,
-  data: number[][]
+  data: number[][],
+  showLowerTriangle: boolean = false
 ): CellPosition | undefined {
   const cellSize = 40 * viewport.scale;
   const row = Math.floor((y - viewport.offsetY) / cellSize);
   const col = Math.floor((x - viewport.offsetX) / cellSize);
-  
+
   if (row >= 0 && row < data.length && col >= 0 && col < data[0].length) {
+    // Don't return cells above the diagonal in lower triangle mode
+    if (showLowerTriangle && col > row) return undefined;
+
     return {
       row,
       col,
