@@ -37,6 +37,7 @@ export default function Home() {
               <CardContent className="p-4">
                 <MatrixCanvas
                   data={sampleMatrix}
+                  scale={scale}
                   onCellSelect={setSelectedCell}
                 />
               </CardContent>

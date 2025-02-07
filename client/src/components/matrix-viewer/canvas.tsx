@@ -3,19 +3,28 @@ import { ViewportState, CellPosition, drawMatrix, getCellAtPosition } from "@/li
 
 interface MatrixCanvasProps {
   data: number[][];
+  scale?: number;
   onCellSelect?: (cell: CellPosition) => void;
 }
 
-export function MatrixCanvas({ data, onCellSelect }: MatrixCanvasProps) {
+export function MatrixCanvas({ data, scale = 1, onCellSelect }: MatrixCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [viewport, setViewport] = useState<ViewportState>({
-    scale: 1,
+    scale: scale,
     offsetX: 0,
     offsetY: 0
   });
   const [selectedCell, setSelectedCell] = useState<CellPosition>();
   const [isDragging, setIsDragging] = useState(false);
   const [lastPosition, setLastPosition] = useState({ x: 0, y: 0 });
+
+  // Update viewport when scale prop changes
+  useEffect(() => {
+    setViewport(prev => ({
+      ...prev,
+      scale: scale
+    }));
+  }, [scale]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -34,7 +43,7 @@ export function MatrixCanvas({ data, onCellSelect }: MatrixCanvasProps) {
   const handleWheel = (e: React.WheelEvent) => {
     e.preventDefault();
     const scaleChange = e.deltaY > 0 ? 0.9 : 1.1;
-    
+
     setViewport(prev => ({
       scale: Math.min(Math.max(0.1, prev.scale * scaleChange), 5),
       offsetX: prev.offsetX,
