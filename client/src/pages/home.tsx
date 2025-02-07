@@ -33,6 +33,7 @@ export default function Home() {
             showLowerTriangle={showLowerTriangle}
             onToggleLowerTriangle={setShowLowerTriangle}
             onMatrixLoad={setMatrix}
+            matrix={matrix}
           />
         </div>
 

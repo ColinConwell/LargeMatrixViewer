@@ -6,6 +6,7 @@ import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { FileUpload } from "./file-upload";
 import { MatrixGenerator } from "./matrix-generator";
+import { MatrixDownload } from "./matrix-download";
 import { Separator } from "@/components/ui/separator";
 
 interface ControlsProps {
@@ -17,6 +18,7 @@ interface ControlsProps {
   showLowerTriangle: boolean;
   onToggleLowerTriangle: (checked: boolean) => void;
   onMatrixLoad: (matrix: number[][]) => void;
+  matrix: number[][];
 }
 
 export function Controls({ 
@@ -27,7 +29,8 @@ export function Controls({
   onScaleChange,
   showLowerTriangle,
   onToggleLowerTriangle,
-  onMatrixLoad
+  onMatrixLoad,
+  matrix
 }: ControlsProps) {
   return (
     <Card className="p-4">
@@ -70,6 +73,8 @@ export function Controls({
           <MatrixGenerator onGenerate={onMatrixLoad} />
           <Separator orientation="vertical" className="h-8" />
           <FileUpload onMatrixLoad={onMatrixLoad} />
+          <Separator orientation="vertical" className="h-8" />
+          <MatrixDownload matrix={matrix} />
         </div>
       </div>
     </Card>
