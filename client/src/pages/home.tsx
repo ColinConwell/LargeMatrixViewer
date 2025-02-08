@@ -12,10 +12,11 @@ const sampleMatrix = Array.from({ length: 100 }, () =>
 export default function Home() {
   const [scale, setScale] = useState(1);
   const [selectedCell, setSelectedCell] = useState<CellPosition>();
+  const [hoveredCell, setHoveredCell] = useState<CellPosition>();
   const [showLowerTriangle, setShowLowerTriangle] = useState(false);
   const [showUpperTriangle, setShowUpperTriangle] = useState(false);
   const [matrix, setMatrix] = useState(sampleMatrix);
-  const [showHover, setShowHover] = useState(false); // Added state for hover
+  const [showHover, setShowHover] = useState(false);
 
   const handleZoomIn = () => setScale(prev => Math.min(5, prev * 1.1));
   const handleZoomOut = () => setScale(prev => Math.max(0.1, prev * 0.9));
@@ -54,15 +55,16 @@ export default function Home() {
                   showUpperTriangle={showUpperTriangle}
                   showHover={showHover}
                   onCellSelect={setSelectedCell}
+                  onCellHover={setHoveredCell}
                 />
               </CardContent>
             </Card>
           </div>
 
-          <div className="lg:col-span-1">
+          <div className="lg:col-span-1 space-y-4">
             <Card>
               <CardHeader>
-                <CardTitle>Cell Details</CardTitle>
+                <CardTitle>Cell Info (Select)</CardTitle>
               </CardHeader>
               <CardContent>
                 {selectedCell ? (
@@ -78,6 +80,27 @@ export default function Home() {
                 )}
               </CardContent>
             </Card>
+
+            {showHover && (
+              <Card>
+                <CardHeader>
+                  <CardTitle>Cell Info (Hover)</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  {hoveredCell ? (
+                    <div className="space-y-2">
+                      <p>Row: {hoveredCell.row}</p>
+                      <p>Column: {hoveredCell.col}</p>
+                      <p>Value: {hoveredCell.value.toFixed(4)}</p>
+                    </div>
+                  ) : (
+                    <p className="text-muted-foreground">
+                      Hover over a cell to view details
+                    </p>
+                  )}
+                </CardContent>
+              </Card>
+            )}
           </div>
         </div>
       </div>

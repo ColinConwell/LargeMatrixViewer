@@ -9,6 +9,7 @@ interface MatrixCanvasProps {
   showUpperTriangle?: boolean;
   showHover?: boolean;
   onCellSelect?: (cell: CellPosition) => void;
+  onCellHover?: (cell: CellPosition | undefined) => void;
 }
 
 export function MatrixCanvas({ 
@@ -17,7 +18,8 @@ export function MatrixCanvas({
   showLowerTriangle = false,
   showUpperTriangle = false,
   showHover = false,
-  onCellSelect 
+  onCellSelect,
+  onCellHover
 }: MatrixCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [viewport, setViewport] = useState<ViewportState>({
@@ -97,9 +99,11 @@ export function MatrixCanvas({
 
       setLastPosition({ x: e.clientX, y: e.clientY });
       setHoveredCell(undefined);
+      onCellHover?.(undefined);
     } else if (showHover) {
       const cell = getCellAtPosition(x, y, viewport, data, showLowerTriangle, showUpperTriangle);
       setHoveredCell(cell);
+      onCellHover?.(cell);
     }
   };
 
@@ -120,6 +124,7 @@ export function MatrixCanvas({
 
   const handleMouseLeave = () => {
     setHoveredCell(undefined);
+    onCellHover?.(undefined);
   };
 
   return (
