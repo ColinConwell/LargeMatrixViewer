@@ -16,7 +16,9 @@ interface ControlsProps {
   scale: number;
   onScaleChange: (value: number) => void;
   showLowerTriangle: boolean;
+  showUpperTriangle: boolean;
   onToggleLowerTriangle: (checked: boolean) => void;
+  onToggleUpperTriangle: (checked: boolean) => void;
   onMatrixLoad: (matrix: number[][]) => void;
   matrix: number[][];
 }
@@ -28,7 +30,9 @@ export function Controls({
   scale, 
   onScaleChange,
   showLowerTriangle,
+  showUpperTriangle,
   onToggleLowerTriangle,
+  onToggleUpperTriangle,
   onMatrixLoad,
   matrix
 }: ControlsProps) {
@@ -59,13 +63,24 @@ export function Controls({
 
           <Separator orientation="vertical" className="h-8" />
 
-          <div className="flex items-center gap-2">
-            <Switch
-              id="lower-triangle"
-              checked={showLowerTriangle}
-              onCheckedChange={onToggleLowerTriangle}
-            />
-            <Label htmlFor="lower-triangle">Lower Triangle</Label>
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2">
+              <Switch
+                id="lower-triangle"
+                checked={showLowerTriangle}
+                onCheckedChange={onToggleLowerTriangle}
+              />
+              <Label htmlFor="lower-triangle">Lower Triangle</Label>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <Switch
+                id="upper-triangle"
+                checked={showUpperTriangle}
+                onCheckedChange={onToggleUpperTriangle}
+              />
+              <Label htmlFor="upper-triangle">Upper Triangle</Label>
+            </div>
           </div>
         </div>
 

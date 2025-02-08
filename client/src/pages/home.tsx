@@ -13,6 +13,7 @@ export default function Home() {
   const [scale, setScale] = useState(1);
   const [selectedCell, setSelectedCell] = useState<CellPosition>();
   const [showLowerTriangle, setShowLowerTriangle] = useState(false);
+  const [showUpperTriangle, setShowUpperTriangle] = useState(false); // Added state for upper triangle
   const [matrix, setMatrix] = useState(sampleMatrix);
 
   const handleZoomIn = () => setScale(prev => Math.min(5, prev * 1.1));
@@ -31,7 +32,9 @@ export default function Home() {
             onZoomOut={handleZoomOut}
             onReset={handleReset}
             showLowerTriangle={showLowerTriangle}
+            showUpperTriangle={showUpperTriangle} // Added prop for upper triangle
             onToggleLowerTriangle={setShowLowerTriangle}
+            onToggleUpperTriangle={setShowUpperTriangle} // Added prop for toggling upper triangle
             onMatrixLoad={setMatrix}
             matrix={matrix}
           />
@@ -45,6 +48,7 @@ export default function Home() {
                   data={matrix}
                   scale={scale}
                   showLowerTriangle={showLowerTriangle}
+                  showUpperTriangle={showUpperTriangle} // Added prop for upper triangle
                   onCellSelect={setSelectedCell}
                 />
               </CardContent>

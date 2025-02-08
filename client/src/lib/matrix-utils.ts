@@ -17,7 +17,8 @@ export function drawMatrix(
   width: number,
   height: number,
   selectedCell?: CellPosition,
-  showLowerTriangle: boolean = false
+  showLowerTriangle: boolean = false,
+  showUpperTriangle: boolean = false
 ) {
   ctx.clearRect(0, 0, width, height);
 
@@ -30,8 +31,10 @@ export function drawMatrix(
   // Draw visible cells
   for (let i = startRow; i < endRow; i++) {
     for (let j = startCol; j < endCol; j++) {
-      // Skip cells above the diagonal in lower triangle mode
-      if (showLowerTriangle && j > i) continue;
+      // Skip cells based on triangle mode
+      if (showLowerTriangle && !showUpperTriangle && j > i) continue;
+      if (showUpperTriangle && !showLowerTriangle && j < i) continue;
+      if (showLowerTriangle && showUpperTriangle && j !== i) continue;
 
       const x = j * cellSize + viewport.offsetX;
       const y = i * cellSize + viewport.offsetY;
@@ -73,15 +76,18 @@ export function getCellAtPosition(
   y: number,
   viewport: ViewportState,
   data: number[][],
-  showLowerTriangle: boolean = false
+  showLowerTriangle: boolean = false,
+  showUpperTriangle: boolean = false
 ): CellPosition | undefined {
   const cellSize = 40 * viewport.scale;
   const row = Math.floor((y - viewport.offsetY) / cellSize);
   const col = Math.floor((x - viewport.offsetX) / cellSize);
 
   if (row >= 0 && row < data.length && col >= 0 && col < data[0].length) {
-    // Don't return cells above the diagonal in lower triangle mode
-    if (showLowerTriangle && col > row) return undefined;
+    // Don't return cells based on triangle mode
+    if (showLowerTriangle && !showUpperTriangle && col > row) return undefined;
+    if (showUpperTriangle && !showLowerTriangle && col < row) return undefined;
+    if (showLowerTriangle && showUpperTriangle && col !== row) return undefined;
 
     return {
       row,

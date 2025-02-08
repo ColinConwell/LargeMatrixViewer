@@ -5,6 +5,7 @@ interface MatrixCanvasProps {
   data: number[][];
   scale?: number;
   showLowerTriangle?: boolean;
+  showUpperTriangle?: boolean;
   onCellSelect?: (cell: CellPosition) => void;
 }
 
@@ -12,6 +13,7 @@ export function MatrixCanvas({
   data, 
   scale = 1, 
   showLowerTriangle = false,
+  showUpperTriangle = false,
   onCellSelect 
 }: MatrixCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -40,11 +42,20 @@ export function MatrixCanvas({
     if (!ctx) return;
 
     const render = () => {
-      drawMatrix(ctx, data, viewport, canvas.width, canvas.height, selectedCell, showLowerTriangle);
+      drawMatrix(
+        ctx, 
+        data, 
+        viewport, 
+        canvas.width, 
+        canvas.height, 
+        selectedCell, 
+        showLowerTriangle,
+        showUpperTriangle
+      );
     };
 
     render();
-  }, [data, viewport, selectedCell, showLowerTriangle]);
+  }, [data, viewport, selectedCell, showLowerTriangle, showUpperTriangle]);
 
   const handleWheel = (e: React.WheelEvent) => {
     e.preventDefault();
@@ -85,7 +96,7 @@ export function MatrixCanvas({
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
 
-    const cell = getCellAtPosition(x, y, viewport, data, showLowerTriangle);
+    const cell = getCellAtPosition(x, y, viewport, data, showLowerTriangle, showUpperTriangle);
     if (cell) {
       setSelectedCell(cell);
       onCellSelect?.(cell);
