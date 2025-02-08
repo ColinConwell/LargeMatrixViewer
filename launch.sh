@@ -15,14 +15,32 @@ fi
 
 echo "✅ Node.js version $(node -v) detected"
 
+# Parse command line arguments for port
+PORT=5000  # Default port
+while getopts "p:" opt; do
+  case $opt in
+    p) PORT="$OPTARG"
+      ;;
+    \?) echo "Invalid option -$OPTARG" >&2
+      exit 1
+      ;;
+  esac
+done
+
+# Validate port number
+if ! [[ "$PORT" =~ ^[0-9]+$ ]] || [ "$PORT" -lt 1 ] || [ "$PORT" -gt 65535 ]; then
+    echo "❌ Invalid port number. Please use a number between 1 and 65535."
+    exit 1
+fi
+
 # Check if node_modules exists
 if [ ! -d "node_modules" ]; then
     echo "📦 Installing dependencies..."
     npm install
 fi
 
-# Start the development server
-echo "🚀 Starting development server..."
-npm run dev
+# Start the development server with the specified port
+echo "🚀 Starting development server on port $PORT..."
+PORT=$PORT npm run dev
 
 # The script will keep running until the user stops it with Ctrl+C

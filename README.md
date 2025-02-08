@@ -1,24 +1,3 @@
-# Matrix Visualization Tool
-
-An interactive web-based tool for visualizing and analyzing large matrices with advanced exploration capabilities.
-
-## Features
-
-- 🎯 Interactive matrix visualization with zoom and pan
-- 🔍 Detailed cell inspection
-- 📊 Support for large matrices (up to 10000 x 10000)
-- 🔄 Matrix generation with custom dimensions
-- 📥 Import matrices from JSON or CSV files
-- 📤 Export matrices to JSON or CSV formats
-- 📐 Lower triangle view mode for square matrices
-- 🎨 Heat map visualization of matrix values
-
-## Installation
-
-1. Make sure you have Node.js 18+ installed
-2. Clone this repository
-3. Install dependencies:
-```bash
 npm install
 ```
 
@@ -27,7 +6,11 @@ npm install
 Run the development server:
 
 ```bash
+# Start on default port 5000
 ./launch.sh
+
+# Or specify a custom port
+./launch.sh -p 3000
 ```
 
 Or manually:
@@ -36,7 +19,7 @@ Or manually:
 npm run dev
 ```
 
-The application will be available at `http://localhost:5000`
+The application will be available at `http://localhost:<port>`
 
 ## Usage Guide
 
@@ -89,12 +72,3 @@ The project uses:
 │   ├── routes.ts      # API routes
 │   └── storage.ts     # Data storage
 └── shared/            # Shared types and schemas
-```
-
-## Contributing
-
-1. Fork the repository
-2. Create your feature branch
-3. Commit your changes
-4. Push to the branch
-5. Create a new Pull Request
