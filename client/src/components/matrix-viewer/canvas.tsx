@@ -140,13 +140,14 @@ export function MatrixCanvas({
         onMouseLeave={handleMouseLeave}
         className="border border-gray-300 rounded-lg cursor-move"
       />
+      {/* Popup disabled but kept for future reference
       {showHover && hoveredCell && (
         <CellPopover
           cell={hoveredCell}
           x={mousePos.x}
           y={mousePos.y}
         />
-      )}
+      )} */}
     </div>
   );
 }
