@@ -17,8 +17,10 @@ interface ControlsProps {
   onScaleChange: (value: number) => void;
   showLowerTriangle: boolean;
   showUpperTriangle: boolean;
+  showHover: boolean;
   onToggleLowerTriangle: (checked: boolean) => void;
   onToggleUpperTriangle: (checked: boolean) => void;
+  onToggleHover: (checked: boolean) => void;
   onMatrixLoad: (matrix: number[][]) => void;
   matrix: number[][];
 }
@@ -31,8 +33,10 @@ export function Controls({
   onScaleChange,
   showLowerTriangle,
   showUpperTriangle,
+  showHover,
   onToggleLowerTriangle,
   onToggleUpperTriangle,
+  onToggleHover,
   onMatrixLoad,
   matrix
 }: ControlsProps) {
@@ -80,6 +84,15 @@ export function Controls({
                 onCheckedChange={onToggleUpperTriangle}
               />
               <Label htmlFor="upper-triangle">Upper Triangle</Label>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <Switch
+                id="hover"
+                checked={showHover}
+                onCheckedChange={onToggleHover}
+              />
+              <Label htmlFor="hover">Show Hover Details</Label>
             </div>
           </div>
         </div>

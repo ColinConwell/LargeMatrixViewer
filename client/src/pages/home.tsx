@@ -13,8 +13,9 @@ export default function Home() {
   const [scale, setScale] = useState(1);
   const [selectedCell, setSelectedCell] = useState<CellPosition>();
   const [showLowerTriangle, setShowLowerTriangle] = useState(false);
-  const [showUpperTriangle, setShowUpperTriangle] = useState(false); // Added state for upper triangle
+  const [showUpperTriangle, setShowUpperTriangle] = useState(false);
   const [matrix, setMatrix] = useState(sampleMatrix);
+  const [showHover, setShowHover] = useState(false); // Added state for hover
 
   const handleZoomIn = () => setScale(prev => Math.min(5, prev * 1.1));
   const handleZoomOut = () => setScale(prev => Math.max(0.1, prev * 0.9));
@@ -32,9 +33,11 @@ export default function Home() {
             onZoomOut={handleZoomOut}
             onReset={handleReset}
             showLowerTriangle={showLowerTriangle}
-            showUpperTriangle={showUpperTriangle} // Added prop for upper triangle
+            showUpperTriangle={showUpperTriangle}
+            showHover={showHover}
             onToggleLowerTriangle={setShowLowerTriangle}
-            onToggleUpperTriangle={setShowUpperTriangle} // Added prop for toggling upper triangle
+            onToggleUpperTriangle={setShowUpperTriangle}
+            onToggleHover={setShowHover}
             onMatrixLoad={setMatrix}
             matrix={matrix}
           />
@@ -48,7 +51,8 @@ export default function Home() {
                   data={matrix}
                   scale={scale}
                   showLowerTriangle={showLowerTriangle}
-                  showUpperTriangle={showUpperTriangle} // Added prop for upper triangle
+                  showUpperTriangle={showUpperTriangle}
+                  showHover={showHover}
                   onCellSelect={setSelectedCell}
                 />
               </CardContent>
